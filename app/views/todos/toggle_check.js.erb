@@ -1,0 +1,6 @@
+var todo_checkbox = $("#todo-check-<%= @todo.id %>");
+<% if @todo.done? %>
+  todo_checkbox.html('<span class="my-font glyphicon glyphicon-check"></span>');
+<% else %>
+  todo_checkbox.html('<span class="my-font glyphicon glyphicon-unchecked"></span>');
+<% end %>

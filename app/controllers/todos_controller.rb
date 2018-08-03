@@ -38,7 +38,7 @@ class TodosController < ApplicationController
     # 加上驚歎號表示會直接存入資料庫（否則要另外 save)
     # ref: http://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-toggle
     @todo.toggle!(:done)
-    redirect_to todos_path
+    
   end
 
   private
