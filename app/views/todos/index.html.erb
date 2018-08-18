@@ -9,15 +9,15 @@
 
     <!-- Add new todo -->
     <div class="panel-body">
-    <%= form_for @todo, {remote: true} do |f| %>
-      <%= f.label "Add New To-Do" %>
-      <div class="input-group">
-        <%= f.text_area :title, :class => "form-control" %>
-        <div class="input-group-addon">
-          <%= f.submit "Create", :class => "my-btn my-btn-transparent" %>
+      <form>
+        <label>Add new to-do</label>
+        <div class="input-group">
+          <input type="text_area" id="new-todo" class="form-control" />
+          <div class="input-group-addon">
+            <button id="create-todo" class="my-btn my-btn-transparent">Create</button>
+          </div>
         </div>
-      </div>
-      <% end %>
+      </form>
     </div>
 
     <!-- Todo List -->
@@ -50,4 +50,40 @@
     });
 
   });
+</script>
+
+<script>
+  $("#create-todo").on("click", function(event) {
+    event.preventDefault();
+    $.ajax({
+      url: "todos/",
+      method: "POST",
+      dataType: "json",
+      data: { 
+        todo: { 
+          title: $("#new-todo").val()
+        }
+      },
+      success: function(data) {
+        var todo = document.createElement("tr");
+        todo.id = data["id"];
+        $(todo).html($("#todo-template").html());
+        $(todo).find(".title.my-font").html(data["title"]);
+        $("#todolist").append(todo);
+      }
+    });
+  });
+</script>
+
+<script type="text/template" id="todo-template">
+  <td class="my-pointer">
+    <span class="my-font glyphicon glyphicon-unchecked"></span>
+  </td>
+  <td>
+    <p class="title my-font"></p>
+  </td>
+  <td class="my-operation">
+    <span class="my-btn my-btn-transparent text-info glyphicon glyphicon-pencil"></span>
+    <span class="delete-todo my-btn my-btn-transparent text-danger glyphicon glyphicon-trash"></span>
+  </td>
 </script>

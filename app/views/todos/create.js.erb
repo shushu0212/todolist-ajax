@@ -1,5 +1,0 @@
-var todo = document.createElement("tr");
-todo.id = "<%= @todo.id %>";
-todo.innerHTML = "<%= j render(:partial => "todo", :locals => { :todo => @todo }) %>";
-$("#todolist").append(todo);
-document.getElementById("todo_title").value = "";
