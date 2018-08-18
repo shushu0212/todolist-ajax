@@ -29,6 +29,7 @@ class TodosController < ApplicationController
   def destroy
     @todo = Todo.find(params[:id])
     @todo.destroy
+    render :json => { :id => @todo.id }
 
   end
 

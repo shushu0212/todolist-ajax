@@ -24,7 +24,7 @@
     <table class="my-table table table-hover">
       <tbody id="todolist">
         <% @todos.each do |todo| %>
-          <tr id="todo-<%= todo.id %>">
+          <tr id="<%= todo.id %>">
             <%= render :partial => "todo", :locals => { :todo => todo } %>
           </tr>
         <% end %>
@@ -32,3 +32,22 @@
     </table>
   </div>
 </div>
+
+<script>
+  $("#todolist").on("click",".delete-todo", function(event){
+    console.log(event);
+    
+    var id = event.target.parentNode.parentNode.id;
+    console.log(id);
+
+    $.ajax({
+    url: "todos/" + id,
+    method: "DELETE",
+    dataType: "json",
+    success: function(data) {
+      $("#" + data["id"]).remove();
+    }
+    });
+
+  });
+</script>
