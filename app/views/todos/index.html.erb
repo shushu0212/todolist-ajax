@@ -110,6 +110,23 @@
   });
 </script>
 
+<script>
+  $("#todolist").on("click", ".toggle-todo", function(event) {
+    var id = event.target.parentNode.parentNode.id;
+
+    $.ajax({
+      url: "todos/" + id + "/toggle_check",
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var checkboxColumn = $('#' + data["id"]).find(".my-pointer");
+        data["done"] ? checkboxColumn.html('<span class="toggle-todo my-font glyphicon glyphicon-check"></span>') : checkboxColumn.html('<span class="toggle-todo my-font glyphicon glyphicon-unchecked"></span>');
+      }
+    });
+
+});
+</script>
+
 <script type="text/template" id="todo-template">
   <td class="my-pointer">
     <span class="my-font glyphicon glyphicon-unchecked"></span>
@@ -133,3 +150,4 @@
     </div>
   </form>
 </script>
+
