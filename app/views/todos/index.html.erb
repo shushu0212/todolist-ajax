@@ -31,6 +31,7 @@
       </tbody>
     </table>
   </div>
+  <h4 id="end" class="text-center"></h4>
 </div>
 
 <script>
@@ -69,7 +70,7 @@
         todo.id = data["id"];
         $(todo).html($("#todo-template").html());
         $(todo).find(".title.my-font").html(data["title"]);
-        $("#todolist").append(todo);
+        $("#todolist").prepend(todo);
       }
     });
   });
@@ -125,6 +126,39 @@
     });
 
 });
+</script>
+
+<script>
+  var current_todo_id = <%= @todos.last.id %>;
+  $(window).on("scroll", function(event) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+   
+    $.ajax({
+      url: "/todos/load?current_id=" + current_todo_id,
+      method: "GET",
+      dataType: "json",
+
+      success: function(data) {
+        var todos = data["data"];
+        if (todos.length > 0) {
+          todos.forEach( function(value,index) {
+            var todo = document.createElement("tr");
+            todo.id = todos[index]["id"];
+            $(todo).html($("#todo-template").html());
+            todos[index]["done"] ? $(todo).find(".my-pointer").html('<span class="toggle-todo my-font glyphicon glyphicon-check"></span>') : $(todo).find(".my-pointer").html('<span class="toggle-todo my-font glyphicon glyphicon-unchecked"></span>');
+          
+            $(todo).find(".title.my-font").html(todos[index]["title"]);
+            $("#todolist").append(todo);
+            current_todo_id = todos[index]["id"];
+          });
+        } 
+        else {
+          $("#end").html("No more todo");
+        }
+      }
+    });
+    }
+  });
 </script>
 
 <script type="text/template" id="todo-template">
