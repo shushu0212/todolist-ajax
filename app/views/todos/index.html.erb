@@ -75,15 +75,61 @@
   });
 </script>
 
+<script>
+  $("#todolist").on("click", ".edit-todo", function(event) {
+    var id = event.target.parentNode.parentNode.id;
+    $.ajax({
+      url: "todos/" + id + "/edit",
+      method: "GET",
+      dataType: "json",
+      success: function(data) {
+        var textColumn = $("#" + data["id"]).find(".my-title");
+        textColumn.html($("#edit-template").html());
+        textColumn.find(".update-title").val(data["title"]);
+        textColumn.on("click", ".update-button", function(updateEvent) { 
+          updateEvent.preventDefault();
+          $.ajax({
+            url: "todos/" + data["id"],
+            method: "PATCH",
+            dataType: "json",
+            data: { 
+              todo : {
+                title : textColumn.find(".update-title").val()
+              }
+            },
+            success: function(updateData) {
+              var textColumn = $("#" + data["id"]).find(".my-title");
+            textColumn.html('<p class="title my-font"></p>');
+            textColumn.find('p').html(updateData["title"]);
+            }
+          });
+        });
+      }
+    });
+
+  });
+</script>
+
 <script type="text/template" id="todo-template">
   <td class="my-pointer">
     <span class="my-font glyphicon glyphicon-unchecked"></span>
   </td>
-  <td>
+  <td class="my-title">
     <p class="title my-font"></p>
   </td>
   <td class="my-operation">
-    <span class="my-btn my-btn-transparent text-info glyphicon glyphicon-pencil"></span>
+    <span class="edit-todo my-btn my-btn-transparent text-info glyphicon glyphicon-pencil"></span>
     <span class="delete-todo my-btn my-btn-transparent text-danger glyphicon glyphicon-trash"></span>
   </td>
+</script>
+
+<script type="text/template" id="edit-template">
+  <form>
+    <div class="input-group">
+      <input type="text_area" class="update-title form-control" />
+      <div class="input-group-addon">
+        <button class="update-button my-btn my-btn-transparent">Update</button>
+      </div>
+    </div>
+  </form>
 </script>

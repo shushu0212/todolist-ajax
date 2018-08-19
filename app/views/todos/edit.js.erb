@@ -1,3 +1,0 @@
-<% html = j( render :partial => "form", :locals => { :todo => @todo } ) %>
-var todo_tds = $("#todo-<%= @todo.id %>").children();
-$(todo_tds[1]).html("<%= html %>");

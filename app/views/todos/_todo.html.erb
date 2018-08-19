@@ -7,15 +7,13 @@
     <% end %>
   <% end %>
 </td>
-<td>
-  <p id="todo-title-<%= todo.id %>" class="title my-font">
+<td class="my-title">
+  <p class="title my-font">
     <%= todo.title %>
   </p>
 </td>
 <td class="my-operation">
-  <%= link_to edit_todo_path(todo), remote: true do %>
-    <span class="my-btn my-btn-transparent text-info glyphicon glyphicon-pencil"></span>
-  <% end %>
+  <span class="edit-todo my-btn my-btn-transparent text-info glyphicon glyphicon-pencil"></span>
   
   <span class="delete-todo my-btn my-btn-transparent text-danger glyphicon glyphicon-trash"></span>
   
